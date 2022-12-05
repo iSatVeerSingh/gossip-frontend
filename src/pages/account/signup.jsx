@@ -1,12 +1,30 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SubmitBtn from "../../components/Buttons/SubmitBtn";
 import InputBox from "../../components/Form/InputBox";
 import AccountLayout from "../../components/Layouts/AccountLayout";
+import { useCreateUserMutation } from "../../services/userAccountApi";
 import { validateForm } from "../../utils/formValidate";
 
 const Signup = () => {
   const [formErrors, setFormErrors] = useState(null);
+
+  const [
+    createUser,
+    { data, isError, isLoading, isUninitialized, isSuccess, error },
+  ] = useCreateUserMutation();
+
+  useEffect(() => {
+    if (isError) {
+      alert(error.data?.data);
+      console.log(data, isError, isUninitialized, isSuccess, error);
+      return;
+    }
+
+    if (isSuccess) {
+      console.log(data);
+    }
+  }, [isLoading]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,6 +46,8 @@ const Signup = () => {
     }
 
     setFormErrors(null);
+
+    createUser(formData);
   };
 
   return (

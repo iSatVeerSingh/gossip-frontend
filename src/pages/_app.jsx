@@ -1,4 +1,6 @@
-import "../styles/globals.css"
+import { Provider } from "react-redux";
+import { store } from "../services/store";
+import "../styles/globals.css";
 
 const DefaultLayout = ({ children }) => {
   return <>{children}</>;
@@ -8,9 +10,11 @@ const MyApp = ({ Component, pageProps }) => {
   const Layout = Component.Layout || DefaultLayout;
 
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <Provider store={store}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </Provider>
   );
 };
 
