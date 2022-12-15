@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { chats } from "../../../demo/chats";
 import { users } from "../../../demo/demousers";
 import ChatHead from "../../components/Chat/ChatHead";
 import Message from "../../components/Chat/Message";
@@ -22,7 +23,7 @@ const Conversation = () => {
 
   return (
     <div className='grid grid-rows-[70px_auto_70px] h-screen'>
-      <ChatHead name={user.name} avatar={user.avatar} status={user.status} />
+      <ChatHead name={user.name} avatar={"/images/img01.jpg"} status={user.status} />
       <div className='p-3 flex flex-col gap-2 overflow-y-scroll'>
         <Message type='incoming' />
         <Message type='outgoing' />

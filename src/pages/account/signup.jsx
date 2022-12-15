@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import SignupSuccess from "../../components/Account/SignupSuccess";
 import SubmitBtn from "../../components/Buttons/SubmitBtn";
 import InputBox from "../../components/Form/InputBox";
 import AccountLayout from "../../components/Layouts/AccountLayout";
@@ -9,20 +10,25 @@ import { validateForm } from "../../utils/formValidate";
 const Signup = () => {
   const [formErrors, setFormErrors] = useState(null);
 
+  const [created, setCreated] = useState(false);
+
   const [
     createUser,
-    { data, isError, isLoading, isUninitialized, isSuccess, error },
+    { isError, isLoading, isSuccess, isUninitialized, error },
   ] = useCreateUserMutation();
 
   useEffect(() => {
-    if (isError) {
-      alert(error.data?.data);
-      console.log(data, isError, isUninitialized, isSuccess, error);
+    if (!isUninitialized && isError) {
+      if (error.data) {
+        alert(error.data?.data);
+      } else {
+        alert("Something went wrong");
+      }
       return;
     }
 
-    if (isSuccess) {
-      console.log(data);
+    if (!isUninitialized && isSuccess) {
+      setCreated(true);
     }
   }, [isLoading]);
 
@@ -49,6 +55,10 @@ const Signup = () => {
 
     createUser(formData);
   };
+
+  if (created) {
+    return <SignupSuccess />;
+  }
 
   return (
     <div className='bg-gossip-dark-02 w-full max-w-[500px] rounded-xl overflow-hidden'>

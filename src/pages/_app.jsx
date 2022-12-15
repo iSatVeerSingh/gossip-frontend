@@ -1,4 +1,5 @@
 import { Provider } from "react-redux";
+import GlobalState from "../components/Global/GlobalState";
 import { store } from "../services/store";
 import "../styles/globals.css";
 
@@ -11,9 +12,11 @@ const MyApp = ({ Component, pageProps }) => {
 
   return (
     <Provider store={store}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <GlobalState>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </GlobalState>
     </Provider>
   );
 };

@@ -1,12 +1,31 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import SubmitBtn from "../../components/Buttons/SubmitBtn";
 import InputBox from "../../components/Form/InputBox";
 import AccountLayout from "../../components/Layouts/AccountLayout";
+import { useLoginUserMutation } from "../../services/userAccountApi";
 import { validateForm } from "../../utils/formValidate";
 
 const Login = () => {
   const [formErrors, setFormErrors] = useState(null);
+  const router = useRouter();
+
+  const [
+    loginUser,
+    { data, isError, isLoading, isSuccess, isUninitialized, error },
+  ] = useLoginUserMutation();
+
+  useEffect(() => {
+    if (!isUninitialized && isError) {
+      alert(error.data?.data);
+      return;
+    }
+
+    if (!isUninitialized && isSuccess) {
+      router.push("/conversation");
+    }
+  }, [isLoading]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +44,8 @@ const Login = () => {
     }
 
     setFormErrors(null);
+
+    loginUser(formData);
   };
 
   return (

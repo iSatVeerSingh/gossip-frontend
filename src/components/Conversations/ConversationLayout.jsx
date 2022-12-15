@@ -1,13 +1,22 @@
+import { useSelector } from "react-redux";
 import { users } from "../../../demo/demousers";
 import ChatProfileSmall from "../Profile/ChatProfileSmall";
 import UserProfileSmall from "../Profile/UserProfileSmall";
 import ProfileSearchBar from "../SearchBar/ProfileSearchBar";
 
 const ConversationLayout = ({ children }) => {
+  const { firstname, lastname, username, avatar, about, status } = useSelector(
+    (state) => state.user.loggedInUser
+  );
+
   return (
     <div className='bg-gossip-dark-01 text-white h-screen grid grid-cols-[400px_auto]'>
       <div className='border-r border-gossip-dark-03 grid grid-rows-[70px_60px_auto] h-screen'>
-        <UserProfileSmall />
+        <UserProfileSmall
+          name={firstname + " " + lastname}
+          avatar={avatar}
+          status={status}
+        />
         <ProfileSearchBar />
         <div className='p-2 overflow-y-scroll flex flex-col gap-1'>
           {users.map((user) => (
