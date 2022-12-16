@@ -11,10 +11,8 @@ const Login = () => {
   const [formErrors, setFormErrors] = useState(null);
   const router = useRouter();
 
-  const [
-    loginUser,
-    { data, isError, isLoading, isSuccess, isUninitialized, error },
-  ] = useLoginUserMutation();
+  const [loginUser, { isError, isLoading, isSuccess, isUninitialized, error }] =
+    useLoginUserMutation();
 
   useEffect(() => {
     if (!isUninitialized && isError) {
@@ -25,7 +23,7 @@ const Login = () => {
     if (!isUninitialized && isSuccess) {
       router.push("/conversation");
     }
-  }, [isLoading]);
+  }, [isLoading, isError, isSuccess, isUninitialized, error, router]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -73,8 +71,8 @@ const Login = () => {
           />
           <SubmitBtn btnText='Login Now' />
         </form>
-        <p className='mt-2 flex gap-2'>
-          <span>Don't have an account?</span>
+        <p className='mt-2 flex flex-col sm:flex-row sm:gap-2'>
+          <span>Don&#39;t have an account?</span>
           <Link className='text-gossip-color-01' href='./signuo'>
             Create an account
           </Link>

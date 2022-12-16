@@ -1,7 +1,7 @@
 const Message = ({ type, msgText, time }) => {
   return (
     <div
-      className={`max-w-[500px] text-white p-2 rounded-md relative ${
+      className={`max-w-[70%] text-white p-2 rounded-md relative ${
         type === "incoming" ? "bg-gossip-dark-07" : "bg-gossip-dark-08 self-end"
       }`}
     >

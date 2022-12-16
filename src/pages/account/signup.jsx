@@ -109,7 +109,7 @@ const Signup = () => {
           />
           <SubmitBtn btnText='Signup Now' />
         </form>
-        <p className='mt-2 flex gap-2'>
+        <p className='mt-2 flex flex-col sm:flex-row sm:gap-2'>
           <span>Already have an account?</span>
           <Link className='text-gossip-color-01' href='./login'>
             Login Here

@@ -2,7 +2,7 @@ import { FiSend } from "react-icons/fi";
 import { IoMdAttach } from "react-icons/io";
 const MessageInputBox = () => {
   return (
-    <div className='bg-gossip-dark-02 p-2 flex items-center gap-2'>
+    <div className='bg-gossip-dark-02 p-2 flex items-center gap-2 text-white'>
       <div className='border border-gossip-dark-03 flex items-center flex-grow rounded-md p-2'>
         <input
           type='text'

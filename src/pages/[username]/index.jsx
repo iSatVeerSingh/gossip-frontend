@@ -26,7 +26,7 @@ const Profile = () => {
       setUser(data?.data);
       return;
     }
-  }, [isFetching]);
+  }, [isFetching, isError, isSuccess, isUninitialized, data]);
 
   if (!isUninitialized && isError) {
     return <ProfileNotFound />;
@@ -39,9 +39,17 @@ const Profile = () => {
           <div>
             <Avatar src={user.avatar} className='w-48 h-48 mb-3' />
             {user.id === id ? (
-              <IconButton btnText='Edit Profile' icon={<FiEdit />} className="w-full" />
+              <IconButton
+                btnText='Edit Profile'
+                icon={<FiEdit />}
+                className='w-full'
+              />
             ) : (
-              <IconButton btnText='Connect' icon={<FiUserPlus />} className="w-full" />
+              <IconButton
+                btnText='Connect'
+                icon={<FiUserPlus />}
+                className='w-full'
+              />
             )}
           </div>
           <div className=''>

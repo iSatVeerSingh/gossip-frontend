@@ -1,38 +1,26 @@
 import { useSelector } from "react-redux";
-import { users } from "../../../demo/demousers";
-import ChatProfileSmall from "../Profile/ChatProfileSmall";
-import UserProfileSmall from "../Profile/UserProfileSmall";
-import ProfileSearchBar from "../SearchBar/ProfileSearchBar";
+import { useMediaQuery } from "../../hooks/useMediaQuery";
+import Loading from "../Loading/Loading";
+import Conversations from "../../pages/conversations";
 
 const ConversationLayout = ({ children }) => {
   const { firstname, lastname, username, avatar, about, status } = useSelector(
     (state) => state.user.loggedInUser
   );
 
-  return (
-    <div className='bg-gossip-dark-01 text-white h-screen grid grid-cols-[400px_auto]'>
-      <div className='border-r border-gossip-dark-03 grid grid-rows-[70px_60px_auto] h-screen'>
-        <UserProfileSmall
-          name={firstname + " " + lastname}
-          avatar={avatar}
-          status={status}
-        />
-        <ProfileSearchBar />
-        <div className='p-2 overflow-y-scroll flex flex-col gap-1'>
-          {users.map((user) => (
-            <ChatProfileSmall
-              key={user.id}
-              id={user.id}
-              avatar={user.avatar}
-              lastMsg={user.lastMsg}
-              name={user.name}
-              numOfUnreadMsg={user.numOfUnreadMsg}
-            />
-          ))}
-        </div>
-      </div>
+  const isDesktop = useMediaQuery("(min-width: 992px)");
+
+  if (isDesktop === undefined) {
+    return <Loading />;
+  }
+
+  return isDesktop ? (
+    <div className='h-screen grid grid-cols-[400px_auto]'>
+      <Conversations />
       {children}
     </div>
+  ) : (
+    <div>{children}</div>
   );
 };
 

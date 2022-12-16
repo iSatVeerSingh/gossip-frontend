@@ -1,30 +1,34 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { chats } from "../../../demo/chats";
 import { users } from "../../../demo/demousers";
 import ChatHead from "../../components/Chat/ChatHead";
 import Message from "../../components/Chat/Message";
 import MessageInputBox from "../../components/Chat/MessageInputBox";
 import ConversationLayout from "../../components/Conversations/ConversationLayout";
 
-const Conversation = () => {
+const ConversationId = () => {
   const router = useRouter();
 
-  const receiverId = router.query.receiver;
+  const { conversationId } = router.query;
 
   const [user, setUser] = useState({});
 
   useEffect(() => {
-    if (receiverId) {
-      const recUser = users.find((user) => user.id === receiverId);
+    if (conversationId) {
+      const recUser = users.find((user) => user.id === conversationId);
       setUser(recUser);
     }
-  }, [receiverId]);
+  }, [conversationId]);
 
   return (
-    <div className='grid grid-rows-[70px_auto_70px] h-screen'>
-      <ChatHead name={user.name} avatar={"/images/img01.jpg"} status={user.status} />
-      <div className='p-3 flex flex-col gap-2 overflow-y-scroll'>
+    <div className='grid grid-rows-[64px_auto_70px] sm:grid-rows-[70px_auto_70px] h-screen bg-gossip-dark-01'>
+      <ChatHead
+        name={user.name}
+        avatar={user.avatar}
+        status={user.status}
+        key={user.id}
+      />
+      <div className='p-3 flex flex-col gap-2 overflow-y-scroll text-white'>
         <Message type='incoming' />
         <Message type='outgoing' />
         <Message type='incoming' />
@@ -38,6 +42,6 @@ const Conversation = () => {
   );
 };
 
-Conversation.Layout = ConversationLayout;
+ConversationId.Layout = ConversationLayout;
 
-export default Conversation;
+export default ConversationId;
