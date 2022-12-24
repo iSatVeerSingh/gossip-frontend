@@ -33,6 +33,12 @@ export const userAccountApi = createApi({
         method: "GET",
       }),
     }),
+    getAllConnectionsByUser: builder.query({
+      query: () => ({
+        url: "/users/connections",
+        method: "GET"
+      })
+    })
   }),
 });
 
@@ -41,4 +47,5 @@ export const {
   useLoginUserMutation,
   useGetLoginStatusQuery,
   useGetUserProfileQuery,
+  useGetAllConnectionsByUserQuery
 } = userAccountApi;

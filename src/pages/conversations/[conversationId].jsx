@@ -1,28 +1,20 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { users } from "../../../demo/demousers";
 import ChatHead from "../../components/Chat/ChatHead";
 import Message from "../../components/Chat/Message";
 import MessageInputBox from "../../components/Chat/MessageInputBox";
 import ConversationLayout from "../../components/Conversations/ConversationLayout";
 
 const ConversationId = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
-  const { conversationId } = router.query;
+  // // const { conversationId } = router.query;
 
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    if (conversationId) {
-      const recUser = users.find((user) => user.id === conversationId);
-      setUser(recUser);
-    }
-  }, [conversationId]);
+  // const [user, setUser] = useState({});
 
   return (
     <div className='grid grid-rows-[64px_auto_70px] sm:grid-rows-[70px_auto_70px] h-screen bg-gossip-dark-01'>
-      <ChatHead
+      {/* <ChatHead
         name={user.name}
         avatar={user.avatar}
         status={user.status}
@@ -37,7 +29,7 @@ const ConversationId = () => {
         <Message type='outgoing' />
         <Message type='incoming' />
       </div>
-      <MessageInputBox />
+      <MessageInputBox /> */}
     </div>
   );
 };

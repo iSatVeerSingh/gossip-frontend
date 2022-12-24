@@ -1,10 +1,11 @@
 import { useRouter } from "next/router";
-import { users } from "../../../demo/demousers";
+import { useEffect, useState } from "react";
 import Loading from "../../components/Loading/Loading";
 import ChatProfileSmall from "../../components/Profile/ChatProfileSmall";
 import UserProfileSmall from "../../components/Profile/UserProfileSmall";
 import ProfileSearchBar from "../../components/SearchBar/ProfileSearchBar";
 import { useIsDesktop } from "../../hooks/useIsDesktop";
+import { useGetAllConnectionsByUserQuery } from "../../services/userAccountApi";
 
 const Conversations = () => {
   const router = useRouter();
@@ -13,6 +14,25 @@ const Conversations = () => {
 
   if (isDesktop) {
     router.push("/conversations/1");
+  }
+
+  const { data, isUninitialized, isFetching, isError, isSuccess, error } =
+    useGetAllConnectionsByUserQuery();
+
+  const [allConnections, setAllConnections] = useState(null);
+
+  useEffect(() => {
+    if (!isUninitialized && isError) {
+      console.log(error);
+    } else if (!isUninitialized && isSuccess) {
+      if (data?.data?.connections) {
+        setAllConnections(data?.data?.connections);
+      }
+    }
+  }, [isFetching]);
+
+  if (isUninitialized || (!isUninitialized && isFetching)) {
+    return <Loading />;
   }
 
   return isDesktop === undefined ? (
@@ -26,7 +46,7 @@ const Conversations = () => {
       />
       <ProfileSearchBar />
       <div className='overflow-y-scroll p-2 grid gap-1'>
-        {users.map((user) => (
+        {/* {users.map((user) => (
           <ChatProfileSmall
             key={user.id}
             id={user.id}
@@ -35,7 +55,14 @@ const Conversations = () => {
             name={user.name}
             numOfUnreadMsg={user.numOfUnreadMsg}
           />
-        ))}
+        ))} */}
+        {allConnections === null ? (
+          <h2>You don't have any connections</h2>
+        ) : (
+          allConnections.map((connection) => (
+            <ChatProfileSmall key={connection.id} id={connection.id} />
+          ))
+        )}
       </div>
     </div>
   );

@@ -17,13 +17,10 @@ const Login = () => {
   useEffect(() => {
     if (!isUninitialized && isError) {
       alert(error.data?.data);
-      return;
+    } else if (!isUninitialized && isSuccess) {
+      router.push("/conversations");
     }
-
-    if (!isUninitialized && isSuccess) {
-      router.push("/conversation");
-    }
-  }, [isLoading, isError, isSuccess, isUninitialized, error, router]);
+  }, [isLoading]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -6,41 +6,32 @@ import { loginUserGlobal } from "../../services/userSlice";
 import Loading from "../Loading/Loading";
 
 const GlobalState = ({ children }) => {
-  // const router = useRouter();
+  const { data, isError, isFetching, isSuccess, isUninitialized, error } =
+    useGetLoginStatusQuery();
 
-  // const dispatch = useDispatch();
+  const router = useRouter();
 
-  // const { data, isError, isFetching, isSuccess, isUninitialized, error } =
-  //   useGetLoginStatusQuery("", {
-  //     skip:
-  //       router.pathname === "/account/login" ||
-  //       router.pathname === "/account/signup",
-  //   });
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (!isUninitialized && isError) {
-  //     router.push("/account/login");
-  //     return;
-  //   }
+  useEffect(() => {
+    if (!isUninitialized && isError) {
+      if (error?.status === 401) {
+        router.push("/account/login");
+      } else {
+        alert("Internal Server Error");
+      }
+    } else if (!isUninitialized && isSuccess) {
+      dispatch(loginUserGlobal(data?.data));
+    }
+  }, [isFetching]);
 
-  //   if (!isUninitialized && isSuccess) {
-  //     dispatch(loginUserGlobal(data?.data));
-  //   }
-  // }, [isFetching]);
+  if (isUninitialized) {
+    return <Loading />;
+  }
 
-  // if (isUninitialized) {
-  //   return <Loading />;
-  // }
-
-  // if (!isUninitialized) {
-  //   if (isFetching) {
-  //     return <Loading />;
-  //   }
-  //   if (isError) {
-  //     router.push("/account/login");
-  //     return;
-  //   }
-  // }
+  if (!isUninitialized && isFetching) {
+    return <Loading />;
+  }
 
   return <>{children}</>;
 };
